@@ -9,10 +9,7 @@ public abstract class Bullet : MonoBehaviour {
     protected GameObject enemy;
 	protected int damage;
 	// Use this for initialization
-	protected virtual void Start () {
-		//this.transform.tag = this.transform.parent.tag;
-		_rigidbody = this.GetComponent<Rigidbody>();
-	} 
+	protected virtual void Start () {} 
 	
 	// Update is called once per frame
 	void Update () {
@@ -20,12 +17,14 @@ public abstract class Bullet : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider c){
-		if(c.transform.tag == "Enemy"){
+		if(c.transform.CompareTag("Enemy")){
 			Enemy enemy = c.GetComponent<Enemy>();
 			enemy.hp -= 1;
+			enemy.DamageAnimation();
 			if(enemy.hp < 0){
 				Destroy(c.transform.gameObject);
 			}
+			Destroy(this.gameObject);
 		}
 	}
 }

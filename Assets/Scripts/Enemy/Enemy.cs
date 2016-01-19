@@ -13,8 +13,8 @@ public abstract class Enemy : MonoBehaviour {
 
 	}
 
-	public void Damage(){
-		anim.SetTrigger("damage_flag");
+	public void DamageAnimation(){
+		anim.SetTrigger("Damage");
 	}
 
 	protected void Move(float speed,Vector3 vector){

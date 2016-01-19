@@ -7,20 +7,21 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class Player : MonoBehaviour
 {
-	private GameObject bullet;
-	private Vector3 init_pos;
+	private Animator anim;
 	private float speed = 10;
 	private float vectorY = 1;
-	private Rigidbody playerbody;
 	private int hp = 3;
 	private bool push;
 	private bool shot;
-
+	private Rigidbody playerbody;
+	private GameObject bullet;
+	private Vector3 init_pos;
 	//Initialize
 	void Awake(){
 		init_pos = this.transform.position;
 		bullet = Resources.Load("Player/Bullets") as GameObject;
 		playerbody = this.GetComponent<Rigidbody>();
+		anim = this.GetComponent<Animator>();
 	}
 
 	IEnumerator Start(){
@@ -38,8 +39,8 @@ public class Player : MonoBehaviour
 	//Game Play
 	void Update ()
 	{
-		//float x = Input.GetAxis("Horizontal"); //Debug
-		float x = Input.acceleration.x;	
+		float x = Input.GetAxis("Horizontal"); //Debug
+		//float x = Input.acceleration.x;	
 		float y = (push)?vectorY:0;
 		Vector3 direction = new Vector3(x, y , 0);
 		Vector3 mypos = this.transform.position;
@@ -57,9 +58,11 @@ public class Player : MonoBehaviour
 		
 	}
 
-	void OnColliderEnter(Collider c){
+	void OnTriggerEnter(Collider c){
 		int damage = 1;
-		if(c.transform.tag == "Enemy"){
+		if(c.transform.CompareTag("Enemy") || c.transform.CompareTag("Obstacle")){
+			Debug.Log("hit");
+			anim.SetTrigger("Damage");
 			hp -= damage;
 		}
 	}
