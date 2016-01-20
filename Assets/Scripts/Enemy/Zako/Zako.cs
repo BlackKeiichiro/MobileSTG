@@ -6,7 +6,6 @@ public class Zako : Enemy{
 	// Use this for initialization
 	protected override void Start () {
 		hp = 5;
-		speed = 0.3f;
 		anim = this.GetComponent<Animator>();
 	}
 	

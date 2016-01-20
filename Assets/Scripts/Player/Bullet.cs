@@ -3,11 +3,14 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Bullet : MonoBehaviour {
+	protected int damage;
+	protected GameObject enemy;
 	protected Rigidbody _rigidbody;
 	protected float speed = 0;
+	protected float shot_range;
+	protected Vector3 save_position;
 	protected Vector3 target_vector;
-    protected GameObject enemy;
-	protected int damage;
+
 	// Use this for initialization
 	protected virtual void Start () {} 
 	
@@ -26,5 +29,9 @@ public abstract class Bullet : MonoBehaviour {
 			}
 			Destroy(this.gameObject);
 		}
+	}
+
+	public void SetTarget(Vector3 target){
+		target_vector = target;
 	}
 }

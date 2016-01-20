@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 			if(shot){
 				GameObject localbullet = Instantiate(bullet) as GameObject;
 				localbullet.transform.position = this.transform.position;
+				localbullet.transform.rotation = this.transform.rotation;
 				yield return new WaitForSeconds(0.05f);
 			}else{
 				yield return new WaitForSeconds(0.05f);
@@ -40,22 +41,24 @@ public class Player : MonoBehaviour
 	void Update ()
 	{
 		float x = Input.GetAxis("Horizontal"); //Debug
-		//float x = Input.acceleration.x;	
+		//float x = Input.acceleration.x;
 		float y = (push)?vectorY:0;
 		Vector3 direction = new Vector3(x, y , 0);
 		Vector3 mypos = this.transform.position;
 
 		if(!LimitedMove(this.transform.position)){
 			playerbody.velocity = Vector3.zero;
-			if(direction.magnitude > 0.1){
+			if(direction.sqrMagnitude > 0.1f){
+				Vector3 shot_rotate = new Vector3(y,-x,0)*25;
+				this.transform.rotation = Quaternion.Euler(-shot_rotate);
 				mypos += direction * Time.deltaTime * speed;
+			}else{
+				this.transform.rotation = Quaternion.identity;
 			}
 		}else{
 			playerbody.velocity = init_pos - this.transform.position;
 		}
-		
 		this.transform.position = mypos;
-		
 	}
 
 	void OnTriggerEnter(Collider c){
@@ -66,6 +69,7 @@ public class Player : MonoBehaviour
 			hp -= damage;
 		}
 	}
+		
 
 	//T or F for "Out of Area"
 	bool LimitedMove(Vector3 ship_position){
@@ -76,7 +80,6 @@ public class Player : MonoBehaviour
 		}
 		return false;
 	}
-
 
 	//UI	
 	public void PushingMove(int vector){

@@ -5,7 +5,7 @@ public class BigMeteo : Enemy {
 	// Use this for initialization
 	protected override void Start () {
 		hp = 50;
-		speed = 0.1f;
+		speed = 0.2f;
 		anim = this.GetComponent<Animator>();
 	}
 	

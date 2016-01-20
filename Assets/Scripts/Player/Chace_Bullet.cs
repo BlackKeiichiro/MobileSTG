@@ -11,7 +11,7 @@ public class Chace_Bullet : Bullet{
 	
 	// Update is callred once per frame
 	void Update () {
-	
+		
 	}
 
 	GameObject SearchEnemy(){

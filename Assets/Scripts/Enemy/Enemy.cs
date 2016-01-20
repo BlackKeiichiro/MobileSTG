@@ -3,7 +3,7 @@ using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public abstract class Enemy : MonoBehaviour {
-	protected float speed = 0;
+	public float speed = 0;
 	public int hp = 0;
 	protected Rigidbody _rigidbody;
 	protected Animator anim;

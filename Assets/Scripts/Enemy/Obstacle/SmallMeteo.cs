@@ -5,7 +5,7 @@ public class SmallMeteo : Enemy {
 	// Use this for initialization
 	protected override void Start () {
 		hp = 2;
-		speed = 0.1f;
+		speed = 0.2f;
 		anim = this.GetComponent<Animator>();
 	}
 
