@@ -7,14 +7,19 @@ public class Emitter : MonoBehaviour {
 	private int currentwave;
 	// Use this for initialization
 	IEnumerator Start () {
-		GameObject wave = Instantiate(waves[currentwave],this.transform.position,Quaternion.identity) as GameObject;
-		wave.transform.parent = transform;
-		while(wave.transform.childCount > 0){
-			yield return new WaitForEndOfFrame();
+		if (waves.Length == 0) {
+			yield break;
 		}
-		Destroy(wave);
-		if(waves.Length <= ++currentwave)
-			currentwave = 0;
+		while(true){
+			GameObject wave = Instantiate(waves[currentwave],this.transform.position,Quaternion.identity) as GameObject;
+			wave.transform.parent = transform;
+			while(wave.transform.childCount > 0){
+				yield return new WaitForEndOfFrame();
+			}
+			Destroy(wave);
+			if(waves.Length <= ++currentwave)
+				currentwave = 0;
+		}
 	}
 	
 	// Update is called once per frame

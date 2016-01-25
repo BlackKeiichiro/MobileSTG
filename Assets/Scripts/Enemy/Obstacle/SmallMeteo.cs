@@ -4,8 +4,7 @@ using System.Collections;
 public class SmallMeteo : Enemy {
 	// Use this for initialization
 	protected override void Start () {
-		hp = 2;
-		speed = 0.2f;
+		hp = 1;
 		anim = this.GetComponent<Animator>();
 	}
 

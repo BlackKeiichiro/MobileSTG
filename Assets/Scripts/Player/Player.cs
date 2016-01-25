@@ -10,29 +10,34 @@ public class Player : MonoBehaviour
 	private Animator anim;
 	private float speed = 10;
 	private float vectorY = 1;
-	private int hp = 3;
+	private float hp = 10;
+	private float maxhp = 10;
 	private bool push;
 	private bool shot;
 	private Rigidbody playerbody;
+	private Transform gunpoint;
 	private GameObject bullet;
 	private Vector3 init_pos;
+	private Image hpUI;
 	//Initialize
 	void Awake(){
 		init_pos = this.transform.position;
 		bullet = Resources.Load("Player/Bullets") as GameObject;
+		gunpoint = this.transform.FindChild("GunPoint");
 		playerbody = this.GetComponent<Rigidbody>();
 		anim = this.GetComponent<Animator>();
+		hpUI = GameObject.Find("Hpbar").GetComponent<Image>();
 	}
 
 	IEnumerator Start(){
 		while(true){
 			if(shot){
 				GameObject localbullet = Instantiate(bullet) as GameObject;
-				localbullet.transform.position = this.transform.position;
+				localbullet.transform.position = gunpoint.position;
 				localbullet.transform.rotation = this.transform.rotation;
-				yield return new WaitForSeconds(0.05f);
+				yield return new WaitForSeconds(0.1f);
 			}else{
-				yield return new WaitForSeconds(0.05f);
+				yield return new WaitForSeconds(0.1f);
 			}
 		}
 	}
@@ -40,6 +45,7 @@ public class Player : MonoBehaviour
 	//Game Play
 	void Update ()
 	{
+		CheckHp();
 		float x = Input.GetAxis("Horizontal"); //Debug
 		//float x = Input.acceleration.x;
 		float y = (push)?vectorY:0;
@@ -69,7 +75,15 @@ public class Player : MonoBehaviour
 			hp -= damage;
 		}
 	}
-		
+	//Original Method
+
+	void CheckHp(){
+		if(hp < 0){
+			Application.LoadLevel("Start");
+			Debug.Log("GameOver");
+		}
+		hpUI.fillAmount = hp/maxhp;
+	}
 
 	//T or F for "Out of Area"
 	bool LimitedMove(Vector3 ship_position){
@@ -79,6 +93,11 @@ public class Player : MonoBehaviour
 			return true;
 		}
 		return false;
+	}
+
+	public void PlayerDamage(int damage){
+		hp -= damage;
+		anim.SetTrigger("Damage");
 	}
 
 	//UI	
@@ -96,6 +115,6 @@ public class Player : MonoBehaviour
 	public void StopPushShot(){
 		shot = false;
 	}
-		
+
 
 }
